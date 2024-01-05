@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic'
-import IssueFormLoading from '../_components/IssueFormLoading'
+import IssueFormLoading from '../components/IssueFormLoading'
 
-const IssueForm = dynamic(() => import('@/app/issues/_components/IssueForm'), {
+const IssueForm = dynamic(() => import('@/app/issues/components/IssueForm'), {
   ssr: false,
   loading: () => <IssueFormLoading />,
 })

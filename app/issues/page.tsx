@@ -1,14 +1,17 @@
 import { Link, Table } from '@radix-ui/themes'
 import prisma from '@/prisma/client'
 import { StatusBadge } from '@/app/components'
-import IssuesToolbar from './_components/IssuesToolbar'
+import IssuesToolbar from './components/IssuesToolbar'
+import { getServerSession } from 'next-auth'
+import authOptions from '../auth/authOptions'
 
 const IssuesPage = async () => {
   const issues = await prisma.issue.findMany()
+  const session = await getServerSession(authOptions)
 
   return (
     <div>
-      <IssuesToolbar />
+      {session && <IssuesToolbar />}
       <Table.Root>
         <Table.Header>
           <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>

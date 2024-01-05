@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation'
 import prisma from '@/prisma/client'
-import IssueFormLoading from '../../_components/IssueFormLoading'
+import IssueFormLoading from '../../components/IssueFormLoading'
 import dynamic from 'next/dynamic'
 
-const IssueForm = dynamic(() => import('@/app/issues/_components/IssueForm'), {
+const IssueForm = dynamic(() => import('@/app/issues/components/IssueForm'), {
   ssr: false,
   loading: () => <IssueFormLoading />,
 })
