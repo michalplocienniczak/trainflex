@@ -1,57 +1,55 @@
-import { Link, Table } from '@radix-ui/themes'
 import prisma from '@/prisma/client'
-import { StatusBadge } from '@/app/components'
-import IssuesToolbar from './components/IssuesToolbar'
+import { Status } from '@prisma/client'
+import { Flex } from '@radix-ui/themes'
 import { getServerSession } from 'next-auth'
 import authOptions from '../auth/authOptions'
-import { Status } from '@prisma/client'
+import Pagination from '../components/Pagination'
+import IssueTable, {
+  COLUMN_KEYS,
+  IssueTableSearchParams,
+} from './components/IssueTable'
+import IssuesToolbar from './components/IssuesToolbar'
 
 interface Props {
-  searchParams: { status: Status }
+  searchParams: IssueTableSearchParams
 }
 
-const IssuesPage = async ({ searchParams: { status } }: Props) => {
-  const isValidStatus = Object.values(Status).includes(status)
+const IssuesPage = async ({ searchParams }: Props) => {
+  const page = parseInt(searchParams.page) || 1
+  const pageSize = 10
+  const isValidStatus = Object.values(Status).includes(searchParams.status)
 
-  const query = isValidStatus ? { where: { status } } : undefined
+  const status = isValidStatus ? searchParams.status : undefined
 
-  const issues = await prisma.issue.findMany(query)
+  const orderBy = COLUMN_KEYS.includes(searchParams.orderBy)
+    ? {
+        [searchParams.orderBy]: 'asc',
+      }
+    : undefined
+
+  const where = {
+    status,
+  }
+
+  const issues = await prisma.issue.findMany({
+    where,
+    orderBy,
+    skip: (page - 1) * 10,
+    take: pageSize,
+  })
+
+  const count = await prisma.issue.count({
+    where,
+  })
   const session = await getServerSession(authOptions)
-
-  const activeStatus = isValidStatus ? status : 'all'
 
   return (
     <div>
-      {session && <IssuesToolbar activeStatus={activeStatus} />}
-      <Table.Root>
-        <Table.Header>
-          <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell className="hidden md:table-cell">
-            Status
-          </Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell className="hidden md:table-cell">
-            Created
-          </Table.ColumnHeaderCell>
-        </Table.Header>
-        <Table.Body>
-          {issues.map((issue) => (
-            <Table.Row key={issue.id}>
-              <Table.Cell>
-                <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
-                <div className="block md:hidden">
-                  <StatusBadge status={issue.status} />
-                </div>
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                <StatusBadge status={issue.status} />
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                {issue.createdAt.toISOString()}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
+      {session && <IssuesToolbar />}
+      <IssueTable issues={issues} searchParams={searchParams} />
+      <Flex justify="center" className="p-4">
+        <Pagination currentPage={page} pageSize={pageSize} itemCount={count} />
+      </Flex>
     </div>
   )
 }
