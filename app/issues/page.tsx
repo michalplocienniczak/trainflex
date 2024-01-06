@@ -4,14 +4,25 @@ import { StatusBadge } from '@/app/components'
 import IssuesToolbar from './components/IssuesToolbar'
 import { getServerSession } from 'next-auth'
 import authOptions from '../auth/authOptions'
+import { Status } from '@prisma/client'
 
-const IssuesPage = async () => {
-  const issues = await prisma.issue.findMany()
+interface Props {
+  searchParams: { status: Status }
+}
+
+const IssuesPage = async ({ searchParams: { status } }: Props) => {
+  const isValidStatus = Object.values(Status).includes(status)
+
+  const query = isValidStatus ? { where: { status } } : undefined
+
+  const issues = await prisma.issue.findMany(query)
   const session = await getServerSession(authOptions)
+
+  const activeStatus = isValidStatus ? status : 'all'
 
   return (
     <div>
-      {session && <IssuesToolbar />}
+      {session && <IssuesToolbar activeStatus={activeStatus} />}
       <Table.Root>
         <Table.Header>
           <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
