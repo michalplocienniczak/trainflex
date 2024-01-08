@@ -9,6 +9,7 @@ import IssueTable, {
   IssueTableSearchParams,
 } from './components/IssueTable'
 import IssuesToolbar from './components/IssuesToolbar'
+import { Metadata } from 'next'
 
 interface Props {
   searchParams: IssueTableSearchParams
@@ -55,5 +56,10 @@ const IssuesPage = async ({ searchParams }: Props) => {
 }
 
 export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  title: 'Issue Tracker - Issues List',
+  description: 'View all project issues.',
+}
 
 export default IssuesPage
