@@ -1,4 +1,4 @@
-export type GeneraterTraining = {
+export type Training = {
   name: string
   description: string
   duration: number

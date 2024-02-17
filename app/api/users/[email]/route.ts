@@ -9,6 +9,9 @@ export async function GET(
     where: {
       email: params.email,
     },
+    include: {
+      group: true,
+    },
   })
 
   if (!user) {

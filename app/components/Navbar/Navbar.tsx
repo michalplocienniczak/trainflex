@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import AvatarDropdownMenu from './AvatarDropdownMenu'
 import NavLinks from './NavLinks'
+import Link from 'next/link'
 
 const Navbar = () => {
   return (
@@ -11,12 +12,14 @@ const Navbar = () => {
         <NavLinks />
       </div>
       <div className="grid place-items-center">
-        <Image
-          src="/trainflex-logo.png"
-          alt="TrainFlex"
-          width={70}
-          height={70}
-        />
+        <Link href="/">
+          <Image
+            src="/trainflex-logo.png"
+            alt="TrainFlex"
+            width={70}
+            height={70}
+          />
+        </Link>
       </div>
       <AvatarDropdownMenu />
     </nav>

@@ -20,13 +20,11 @@ const AvatarDropdownMenu = () => {
   const items: MenuProps['items'] = [
     {
       key: 'email',
-      label: session!.user!.email,
-      className: 'cursor-default text-gray-500 hover:bg-white!',
+      label: <Link href="/me">{session!.user!.email}</Link>,
     },
     {
       key: 'logout',
       label: <Link href="/api/auth/signout">Log out</Link>,
-      className: 'bg-yellow-300 text-black',
     },
   ]
 
