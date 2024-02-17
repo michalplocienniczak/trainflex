@@ -9,7 +9,11 @@ datasource db {
 }
 
 model groups {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  level       String
+  description String
+  members     User[]
 }
 
 model Account {
@@ -47,6 +51,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  groupId       String?   @db.ObjectId
+  group         groups?   @relation(fields: [groupId], references: [id])
 }
 
 model VerificationToken {
