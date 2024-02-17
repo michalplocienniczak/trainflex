@@ -1,17 +1,18 @@
-import '@radix-ui/themes/styles.css'
 import './theme-config.css'
 import type { Metadata } from 'next'
 import './globals.css'
-import { Inter } from 'next/font/google'
-import { Navbar } from '../components'
-import { Container, Theme } from '@radix-ui/themes'
+import { Zen_Dots } from 'next/font/google'
+import { Navbar } from './components'
 import AuthProvider from '../auth/Provider'
 import QueryClientProvider from '@/QueryClientProvider'
+import { AntdRegistry } from '@ant-design/nextjs-registry'
+import { ConfigProvider } from 'antd'
 
-const inter = Inter({
+const zen = Zen_Dots({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
+  weight: ['400'],
 })
 
 export const metadata: Metadata = {
@@ -25,18 +26,20 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={zen.variable}>
       <body>
-        <QueryClientProvider>
-          <AuthProvider>
-            <Theme appearance="light" accentColor="violet" radius="large">
-              <Navbar />
-              <main className="p-5">
-                <Container size="4">{children}</Container>
-              </main>
-            </Theme>
-          </AuthProvider>
-        </QueryClientProvider>
+        <AntdRegistry>
+          <ConfigProvider>
+            <QueryClientProvider>
+              <AuthProvider>
+                <Navbar />
+                <main className="w-full max-w-5xl self-center m-auto">
+                  {children}
+                </main>
+              </AuthProvider>
+            </QueryClientProvider>
+          </ConfigProvider>
+        </AntdRegistry>
       </body>
     </html>
   )

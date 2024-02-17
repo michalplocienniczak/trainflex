@@ -1,12 +1,6 @@
-import { Text } from '@radix-ui/themes'
-
 const ErrorMessage = ({ children }: React.PropsWithChildren) => {
   if (!children) return null
-  return (
-    <Text color="red" as="p">
-      {children}
-    </Text>
-  )
+  return <p className="bg-red-300">{children}</p>
 }
 
 export default ErrorMessage

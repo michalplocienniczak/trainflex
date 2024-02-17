@@ -1,19 +1,7 @@
-import { Grid } from '@radix-ui/themes'
-import { Metadata } from 'next'
-
 export default async function Home() {
   return (
-    <Grid
-      columns={{
-        initial: '1',
-        md: '2',
-      }}
-      gap="3"
-    ></Grid>
+    <div className="grid w-full justify-center pt-40 h-lvh ">
+      <h1 className="text-3xl">Train and flex, with your friends!</h1>
+    </div>
   )
-}
-
-export const metadata: Metadata = {
-  title: 'Issue Tracker - Dashboard',
-  description: 'View a summary of project issues.',
 }
