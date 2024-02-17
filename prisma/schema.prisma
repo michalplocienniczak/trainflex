@@ -9,11 +9,12 @@ datasource db {
 }
 
 model groups {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   level       String
   description String
   members     User[]
+  trainings   Training[]
 }
 
 model Account {
@@ -62,4 +63,15 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Training {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  duration    Int
+  groupId     String?  @db.ObjectId
+  group       groups?  @relation(fields: [groupId], references: [id])
+  exercises   Json[]
+  createdAt   DateTime @default(now())
 }
