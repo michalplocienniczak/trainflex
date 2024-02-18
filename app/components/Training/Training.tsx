@@ -31,7 +31,9 @@ const Training = ({
 }) => {
   const [open, setOpen] = useState(false)
   const { data } = useSession()
-  const { data: user } = useUserData({ email: data?.user?.email })
+  const { data: user, refetch: refetchUserData } = useUserData({
+    email: data?.user?.email,
+  })
 
   const formatSet = (sets: number) => {
     return sets > 1 ? `${sets} sets` : `${sets} set`
@@ -56,20 +58,22 @@ const Training = ({
         setOpen={setOpen}
         loading={postActivity.status === 'pending'}
         onSubmit={(values: Partial<Activity>) => {
-          postActivity.mutate({
-            trainingId: training.id,
-            activity: {
-              ...values,
-              userId: user?.id || '',
-            },
-            onSuccess: () => {
+          postActivity
+            .mutateAsync({
+              trainingId: training.id,
+              activity: {
+                ...values,
+                userId: user?.id || '',
+              },
+            })
+            .then(() => {
+              setOpen(false)
               notification.success({
                 message: 'Activity Posted! Congratz!',
               })
-              setOpen(false)
               refetch?.()
-            },
-          })
+              refetchUserData()
+            })
         }}
       />
       <div className="flex flex-col gap-2 w-full">
@@ -94,18 +98,21 @@ const Training = ({
               cancelText="No, I'll do it"
               disabled={isCompleted}
               onConfirm={() => {
-                postActivity.mutate({
-                  trainingId: training.id,
-                  activity: {
-                    dismissed: true,
-                    userId: user?.id || '',
-                  },
-                  onSuccess: () => {
+                postActivity
+                  .mutateAsync({
+                    trainingId: training.id,
+                    activity: {
+                      dismissed: true,
+                      userId: user?.id || '',
+                    },
+                  })
+                  .then(() => {
                     notification.info({
                       message: 'Training Dismissed :(',
                     })
-                  },
-                })
+                    refetch?.()
+                    refetchUserData()
+                  })
               }}
             >
               <div

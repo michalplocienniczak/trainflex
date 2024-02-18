@@ -13,10 +13,12 @@ const Navbar = () => {
 
   const { data } = useUserData({ email: session?.user?.email })
 
+  const showStreak = Boolean(data?.streak && data?.streak > 0)
+
   return (
     <nav className="h-20 flex place-items-center justify-between max-w-5xl self-center m-auto px-4">
       <div className="flex gap-2 place-items-center text-red-600">
-        {data?.streak && data?.streak > 0 && (
+        {showStreak && (
           <>
             <VscFlame size={20} />
             <span>{data?.streak}</span>
