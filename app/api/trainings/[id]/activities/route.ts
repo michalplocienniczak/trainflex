@@ -59,6 +59,27 @@ export async function POST(
     return NextResponse.json({ error: 'Activity not created' }, { status: 500 })
   }
 
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  })
+
+  if (!user) {
+    return NextResponse.json({ error: 'User not found' }, { status: 404 })
+  }
+
+  const streak = dismissed ? 0 : (user.streak || 0) + 1
+
+  await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      streak,
+    },
+  })
+
   const updatedTraining = await prisma.training.update({
     where: {
       id: training.id,

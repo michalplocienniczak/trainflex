@@ -57,6 +57,7 @@ model User {
   surveys       Survey[]
   activities    Activity[]
   createdAt     DateTime?  @default(now())
+  streak        Int?       @default(0)
 }
 
 model VerificationToken {

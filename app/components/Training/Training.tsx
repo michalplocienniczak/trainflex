@@ -159,6 +159,7 @@ const Training = ({
             ]}
           />
         </Card>
+        <h3 className="font-bold text-lg">Community activities</h3>
         {activities?.map((activity) => (
           <Card key={activity.id}>
             {activity.dismissed ? (
