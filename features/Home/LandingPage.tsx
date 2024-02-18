@@ -18,12 +18,14 @@ export const LandingPage = () => {
         href="/api/auth/signin"
         style={{
           marginTop: '5vh',
+          marginBottom: '5vh',
         }}
       >
         <Button type="primary" size="large">
           Join Now
         </Button>
       </Link>
+      <p>Made with ♥ by Zrób tak, żeby było dobrze</p>
     </div>
   )
 }

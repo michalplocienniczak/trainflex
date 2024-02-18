@@ -56,7 +56,7 @@ model User {
   group         groups?    @relation(fields: [groupId], references: [id])
   surveys       Survey[]
   activities    Activity[]
-  createdAt     DateTime   @default(now())
+  createdAt     DateTime?  @default(now())
 }
 
 model VerificationToken {

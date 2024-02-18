@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/client'
 import OpenAI from 'openai'
 import { newTrainingSchema } from '@/validationSchemas/trainingSchema'
+import { z } from 'zod'
 
 const openai = new OpenAI()
 
@@ -13,7 +14,22 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const group = await prisma?.groups.findFirst()
+  const body = await request.json()
+
+  const bodyValidation = z
+    .object({
+      groupId: z.string(),
+    })
+    .safeParse(body)
+
+  if (!bodyValidation.success)
+    return NextResponse.json(bodyValidation.error.format(), { status: 400 })
+
+  const group = await prisma?.groups.findFirst({
+    where: {
+      id: body.groupId,
+    },
+  })
 
   if (!group) {
     return NextResponse.json({ error: 'Group not found' }, { status: 404 })

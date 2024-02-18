@@ -1,38 +1,35 @@
 'use client'
 
-import React from 'react';
-import { Button } from "antd";
-import axios from 'axios';
+import React from 'react'
+import { Button } from 'antd'
+import axios from 'axios'
 
-const AdminButton = ({ grupId }: {grupId:string}) => {
-    const handleClick = async () => {
-        console.log("DUPA!");
+const AdminButton = ({ grupId }: { grupId: string }) => {
+  const handleClick = async () => {
+    const endpoint = '/api/trainings'
 
-        const endpoint = '/api/trainings';
+    const payload = {
+      groupId: grupId,
+    }
 
-        const payload = {
-            grupId: grupId
-        };
+    try {
+      const response = await axios.post(endpoint, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
 
-        try {
-            const response = await axios.post(endpoint, payload, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+      console.log('Success:', response.data)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Error:', error.message)
+      } else {
+        console.error('Unexpected error:', error)
+      }
+    }
+  }
 
-            console.log('Success:', response.data);
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                console.error('Error:', error.message);
-            } else {
-                console.error('Unexpected error:', error);
-            }
-        }
-
-    };
-
-    return <Button onClick={ handleClick }>{grupId}</Button>;
+  return <Button onClick={handleClick}>{grupId}</Button>
 }
 
-export default AdminButton;
+export default AdminButton
