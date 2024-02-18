@@ -7,11 +7,9 @@ import AppInput from '@/app/components/AppComponents/AppInput/AppInput'
 import AppSelect from '@/app/components/AppComponents/AppSelect/AppSelect'
 import { isEqual } from 'lodash'
 import { Button, Spin } from 'antd'
-import axios from 'axios'
 import { useUserData } from '@/hooks'
 import { useSession } from 'next-auth/react'
 import { usePatchUser } from '@/hooks/usePatchUser'
-import { useEffect } from 'react'
 
 type ProfileFormProps = {
   groupOptions: DefaultOptionType[]

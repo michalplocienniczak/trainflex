@@ -5,11 +5,10 @@ import EmailProvider, {
 import prisma from '@/prisma/client'
 import { NextAuthOptions } from 'next-auth'
 import { MailerSend, EmailParams } from 'mailersend'
+import { basicTheme } from '@/theme'
 
 async function sendVerificationRequest(params: SendVerificationRequestParams) {
   const { identifier, url, provider } = params
-  // NOTE: You are not required to use `nodemailer`, use whatever you want.
-  console.log('Sending email to:', identifier)
 
   const mailerSend = new MailerSend({
     apiKey: process.env.MAILERSEND_TOKEN as string,
@@ -47,6 +46,11 @@ const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: 'jwt',
+  },
+  theme: {
+    logo: '/trainflex-logo.png',
+    brandColor: basicTheme.colors.primary,
+    colorScheme: 'light',
   },
 }
 
