@@ -2,7 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/client'
 import { newActivitySchema } from '@/validationSchemas/activitySchema'
 
-export async function GET(request: NextRequest, params: { id: string }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   const activities = await prisma.activity.findMany({
     where: {
       trainingId: params.id,
@@ -15,7 +18,10 @@ export async function GET(request: NextRequest, params: { id: string }) {
   return NextResponse.json(activities)
 }
 
-export async function POST(request: NextRequest, params: { id: string }) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   const training = await prisma.training.findFirst({
     where: {
       id: params.id,
