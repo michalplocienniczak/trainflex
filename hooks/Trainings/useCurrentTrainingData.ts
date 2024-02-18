@@ -14,5 +14,8 @@ export const useCurrentTrainingData = (props: UseCurrentTrainingDataProps) => {
       const data: Training = await response.json()
       return data
     },
+    retry: false,
+    staleTime: Infinity,
+    enabled: !!props.groupId,
   })
 }

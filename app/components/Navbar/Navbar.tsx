@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 const Navbar = () => {
   return (
-    <nav className="h-20 flex place-items-center justify-between max-w-5xl self-center m-auto">
+    <nav className="h-20 flex place-items-center justify-between max-w-5xl self-center m-auto px-4">
       <div className="flex gap-6">
         <NavLinks />
       </div>

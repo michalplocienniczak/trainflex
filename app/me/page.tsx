@@ -17,7 +17,7 @@ const ProfilePage = async () => {
 
   return (
     <div>
-      <h1>Profile</h1>
+      <h1 className="font-bold text-xl mb-4">Profile</h1>
 
       <ProfileForm groupOptions={groupOptions} />
     </div>

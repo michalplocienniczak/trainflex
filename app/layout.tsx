@@ -7,6 +7,7 @@ import AuthProvider from '../auth/Provider'
 import QueryClientProvider from '@/QueryClientProvider'
 import { AntdRegistry } from '@ant-design/nextjs-registry'
 import { ConfigProvider } from 'antd'
+import { theme } from '@/antd.config'
 
 const zen = Zen_Dots({
   subsets: ['latin'],
@@ -29,7 +30,7 @@ export default function RootLayout({
     <html lang="en" className={zen.variable}>
       <body>
         <AntdRegistry>
-          <ConfigProvider>
+          <ConfigProvider theme={theme}>
             <QueryClientProvider>
               <AuthProvider>
                 <Navbar />

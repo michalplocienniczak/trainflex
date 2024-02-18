@@ -14,5 +14,6 @@ export const useUserData = (props: UseUserDataProps) => {
       const data: User = await response.json()
       return data
     },
+    enabled: !!props.email,
   })
 }

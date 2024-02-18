@@ -70,7 +70,7 @@ const ProfileForm = ({ groupOptions }: ProfileFormProps) => {
               <AppSelect
                 name="groupId"
                 labelProps={{
-                  label: 'Group',
+                  label: 'Your fitness level group',
                 }}
                 options={groupOptions}
                 style={{

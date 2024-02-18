@@ -5,18 +5,22 @@ import { useUserData } from '@/hooks'
 import { useCurrentTrainingData } from '@/hooks/Trainings'
 import { useSession } from 'next-auth/react'
 import React from 'react'
+import { LandingPage } from './LandingPage'
+import { Spin } from 'antd'
 
 const CurrentTraining = () => {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
 
   const { data: userData } = useUserData({ email: session?.user?.email })
 
-  const { data, isLoading } = useCurrentTrainingData({
+  const { data, isLoading, isError } = useCurrentTrainingData({
     groupId: userData?.groupId,
   })
 
-  if (isLoading) return <div>Loading...</div>
-  if (!data) return <div>No training found</div>
+  if (status === 'unauthenticated') return <LandingPage />
+  if (isLoading || status === 'loading') return <Spin spinning={true} />
+
+  if (!data || isError) return <div>No training found</div>
 
   return <Training training={data} />
 }

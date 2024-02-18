@@ -29,8 +29,12 @@ const AvatarDropdownMenu = () => {
   ]
 
   return (
-    <Dropdown menu={{ items }}>
-      <Avatar src={session!.user!.image!} alt={session!.user!.name!}>
+    <Dropdown menu={{ items }} trigger={['click']} placement="bottomRight">
+      <Avatar
+        src={session!.user!.image!}
+        alt={session!.user!.name!}
+        className="cursor-pointer"
+      >
         ?
       </Avatar>
     </Dropdown>
