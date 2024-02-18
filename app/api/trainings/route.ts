@@ -19,13 +19,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Group not found' }, { status: 404 })
   }
 
-  console.log('group', group)
-  console.log(
-    newTrainingPrompt({
-      group,
-    })
-  )
-
   const response = await openai.chat.completions.create({
     model: 'gpt-4',
     messages: [

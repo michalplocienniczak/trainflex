@@ -11,7 +11,7 @@ const AdminButton = ({ grupId }: {grupId:string}) => {
         const endpoint = '/api/trainings';
 
         const payload = {
-            trainingID: grupId
+            grupId: grupId
         };
 
         try {
