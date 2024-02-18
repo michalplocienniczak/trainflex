@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { Skeleton } from '..'
 import { Dropdown, Button, Avatar, MenuProps } from 'antd'
+import { MdAccountCircle } from 'react-icons/md'
 
 const AvatarDropdownMenu = () => {
   const { status, data: session } = useSession()
@@ -20,7 +21,7 @@ const AvatarDropdownMenu = () => {
   const items: MenuProps['items'] = [
     {
       key: 'email',
-      label: <Link href="/me">{session!.user!.email}</Link>,
+      label: <Link href="/me">Your profile</Link>,
     },
     {
       key: 'logout',
@@ -30,13 +31,7 @@ const AvatarDropdownMenu = () => {
 
   return (
     <Dropdown menu={{ items }} trigger={['click']} placement="bottomRight">
-      <Avatar
-        src={session!.user!.image!}
-        alt={session!.user!.name!}
-        className="cursor-pointer"
-      >
-        ?
-      </Avatar>
+      <MdAccountCircle size={30} className="cursor-pointer" />
     </Dropdown>
   )
 }

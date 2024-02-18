@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react'
 import React from 'react'
 import { LandingPage } from './LandingPage'
 import { Spin } from 'antd'
+import { useGetTrainingActivities } from '@/hooks/Activites/useGetTrainingActivities'
 
 const CurrentTraining = () => {
   const { data: session, status } = useSession()
@@ -17,12 +18,16 @@ const CurrentTraining = () => {
     groupId: userData?.groupId,
   })
 
+  const { data: activities, refetch } = useGetTrainingActivities({
+    trainingId: data?.id || '',
+  })
+
   if (status === 'unauthenticated') return <LandingPage />
   if (isLoading || status === 'loading') return <Spin spinning={true} />
 
   if (!data || isError) return <div>No training found</div>
 
-  return <Training training={data} />
+  return <Training training={data} activities={activities} refetch={refetch} />
 }
 
 export default CurrentTraining

@@ -45,16 +45,18 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  groupId       String?   @db.ObjectId
-  group         groups?   @relation(fields: [groupId], references: [id])
+  groupId       String?    @db.ObjectId
+  group         groups?    @relation(fields: [groupId], references: [id])
   surveys       Survey[]
+  activities    Activity[]
+  createdAt     DateTime   @default(now())
 }
 
 model VerificationToken {
@@ -67,15 +69,16 @@ model VerificationToken {
 }
 
 model Training {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   duration    Int
-  groupId     String?  @db.ObjectId
-  group       groups?  @relation(fields: [groupId], references: [id])
+  groupId     String?    @db.ObjectId
+  group       groups?    @relation(fields: [groupId], references: [id])
   exercises   Json[]
   surveys     Survey[]
-  createdAt   DateTime @default(now())
+  createdAt   DateTime   @default(now())
+  activities  Activity[]
 }
 
 model Survey {
@@ -86,4 +89,18 @@ model Survey {
   trainingID String?   @db.ObjectId
   trainings  Training? @relation(fields: [trainingID], references: [id])
   createdAt  DateTime  @default(now())
+}
+
+model Activity {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String    @db.ObjectId
+  user          User      @relation(fields: [userId], references: [id])
+  trainingId    String?   @db.ObjectId
+  training      Training? @relation(fields: [trainingId], references: [id])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  comment       String?
+  time          Int?
+  burntCalories Int?
+  dismissed     Boolean   @default(false)
 }

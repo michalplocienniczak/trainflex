@@ -12,6 +12,9 @@ export async function GET(
     orderBy: {
       createdAt: 'desc',
     },
+    include: {
+      activities: true,
+    },
   })
 
   if (!training) {
